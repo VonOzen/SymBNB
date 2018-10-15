@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create a new ad{% endblock %}
+
+{% block body %}
+
+  <div class="container">
+    <h1>Create a new ad !</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+
+    <button type="submit" class="btn btn-primary">Create new ad</button>
+
+    {{ form_end(form) }}
+
+  </div>
+
+{% endblock %}
