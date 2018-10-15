@@ -1,0 +1,20 @@
+.container {
+  margin-top: 20px;
+}
+
+/** Single add page **/
+.ad-title {
+  padding: 2em;
+  background-size: cover;
+  background-position: center center;
+}
+
+.ad-title h1, .ad-title p {
+  color: hsla(0,0%,92%);
+  text-shadow: 3px 1px 3px hsla(0,0%,0%,.7);
+}
+
+.carousel-caption, .carousel-caption h5 {
+  color: hsla(0,0%,92%) !important;
+  text-shadow: 1px 1px 5px hsla(0,0%,0%,.7);
+}
