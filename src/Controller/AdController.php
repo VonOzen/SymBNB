@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Entity\Image;
 use App\Form\AnnonceType;
 use App\Repository\AdRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -29,10 +32,31 @@ class AdController extends AbstractController
      * @Route("/ads/new", name="ads_create")
      * @return Response
      */
-    public function create() {
+    public function create(Request $request, ObjectManager $manager) {
         $ad = new Ad();
 
         $form = $this->createForm(AnnonceType::class, $ad);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            foreach($ad->getImages() as $image) {
+                $image->setAd($ad);
+                $manager->persist($image);
+            }
+
+            $manager->persist($ad);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Your ad \"<strong>{$ad->getTitle()}</strong>\" has been successfully saved !"
+            );
+
+            return $this->redirectToRoute('ads_show', [
+                'slug' => $ad->getSlug()
+            ]);
+        }
 
         return $this->render('ad/new.html.twig', [
             'form' => $form->createView()

@@ -2,6 +2,8 @@
 
 {% block title %}Create a new ad{% endblock %}
 
+{% form_theme form _self %}
+
 {% block body %}
 
   <div class="container">
@@ -16,5 +18,72 @@
     {{ form_end(form) }}
 
   </div>
+
+{% endblock %}
+
+{% block _annonce_images_widget %}
+  <h3>Add more pics of your place !</h3>
+
+  {{ form_widget(form) }}
+
+  <input type="hidden" id="widgets-counter" value="0">
+
+  <div class="form-group">
+    <button type="button" id="add-image"  class="btn btn-outline-secondary">Add image</button>
+  </div>
+{% endblock %}
+
+{% block _annonce_images_entry_row %}
+  {{ form_widget(form) }}
+{% endblock %}
+
+{% block _annonce_images_entry_widget %}
+  <div class="form-group" id="block_{{id}}">
+    <div class="row">
+      <div class="col-10">
+        <div class="row">
+          <div class="col">
+            {{ form_widget(form.url) }}
+          </div>
+          <div class="col">
+            {{ form_widget(form.caption) }}
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+        <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-outline-danger">X</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+  $('#add-image').click(() => {
+    //getting future fields' number
+    const index = +$('#widgets-counter').val();
+
+    //getting entry's prototype
+    const tmpl = $('#annonce_images').data('prototype').replace(/__name__/g, index);
+
+    //injecting tmpl in div
+    $('#annonce_images').append(tmpl);
+
+    $('#widgets-counter').val(index + 1);
+
+    handleDeleteButtons();
+
+  });
+
+  function handleDeleteButtons() {
+    $('button[data-action="delete"]').click(function(){
+      const target = this.dataset.target;
+      $(target).remove();
+    });
+  }
+
+  handleDeleteButtons();
+</script>
 
 {% endblock %}

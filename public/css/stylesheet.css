@@ -12,6 +12,7 @@
 .ad-title h1, .ad-title p {
   color: hsla(0,0%,92%);
   text-shadow: 3px 1px 3px hsla(0,0%,0%,.7);
+  font-weight: bolder;
 }
 
 .carousel-caption, .carousel-caption h5 {
