@@ -3,13 +3,19 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AdRepository")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(
+ *  fields={"title"},
+ *  message="This title is already used by another ad :c"
+ * )
  */
 class Ad
 {
@@ -22,6 +28,7 @@ class Ad
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="10", max="255", minMessage="Title must contain more than 10 caracters", maxMessage="Title must contain less than 255 caracters")
      */
     private $title;
 
@@ -37,26 +44,31 @@ class Ad
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min="20", max="255", minMessage="Introduction must contain at least 20 caracters", maxMessage="Introduction must contain less than 255 caracters")
      */
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min="100", minMessage="The content of your ad must contain at least 100 caracters")
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url(message="Please enter a valid URL")
      */
     private $coverImage;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotEqualTo(value=0, message="There can't be no room")
      */
     private $rooms;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ad", orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $images;
 

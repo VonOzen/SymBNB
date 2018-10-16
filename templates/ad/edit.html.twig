@@ -1,19 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create a new ad{% endblock %}
+{% block title %}Edit ad - {{ ad.title }}{% endblock %}
 
 {% form_theme form 'ad/_collection.html.twig' %}
 
 {% block body %}
 
   <div class="container">
-    <h1>Create a new ad !</h1>
+    <h1>Edit your ad : "{{ ad.title }}" !</h1>
 
     {{ form_start(form) }}
 
     {{ form_widget(form) }}
 
-    <button type="submit" class="btn btn-primary">Create new ad</button>
+    <button type="submit" class="btn btn-primary">Edit</button>
 
     {{ form_end(form) }}
 
