@@ -17,6 +17,12 @@ security:
         main:
             anonymous: true
 
+            provider: in_database
+
+            form_login:
+                login_path: account_login
+                check_path: account_login
+
             # activate different ways to authenticate
 
             # http_basic: true
