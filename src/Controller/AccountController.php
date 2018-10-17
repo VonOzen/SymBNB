@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\RegistrationType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AccountController extends AbstractController
 {
@@ -15,9 +18,16 @@ class AccountController extends AbstractController
      * 
      * @return Response
      */
-    public function login()
+    public function login(AuthenticationUtils $utils)
     {
-        return $this->render('account/login.html.twig');
+        $error = $utils->getLastAuthenticationError();
+        $username = $utils->getLastUsername();
+
+        return $this->render('account/login.html.twig', 
+        [
+            'hasError' => $error !== null,
+            'username' => $username
+        ]);
     }
 
     /**
@@ -27,7 +37,29 @@ class AccountController extends AbstractController
      * 
      * @return void
      */
-    public function logout() {
-
+    public function logout() 
+    {
+        // Nothing to do here
     }
+
+    /**
+     * Display registration form
+     * 
+     * @Route("/register", name="account_register")
+     *
+     * @return Response
+     */
+    public function register() 
+    {
+        $user = new User();
+
+        $form = $this->createForm(RegistrationType::class, $user);
+
+        return $this->render('account/registration.html.twig', 
+        [
+            'form' => $form->createView()
+        ]);
+    }
+
+
 }
