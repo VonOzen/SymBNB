@@ -3,13 +3,13 @@
 {% block title %}Book ad : "{{ ad.title }}" {% endblock %}
 
 {% block body %}
-    <div class="container bg-light">
+    <div class="container">
         <h1>Book a room : <strong>{{ ad.title }}</strong></h1>
         <p>You are about to book a room provided by <strong>{{ ad.author.fullName }}</strong>. Tell us what you need, we handle this !</p>
 
         {{ form_start(form) }}
         <h2>Choose your arrival and departure dates</h2>
-        <div class="row">
+        <div class="row bg-light">
             <div class="col">
                 {{ form_row(form.startDate) }}
             </div>
@@ -20,6 +20,14 @@
 
         <h4>Amount of this booking : <span id="amount">... &euro;</span></h4>
         <span id="days">0</span> night(s) for {{ ad.price }}&euro; / night.
+
+        <h2>Any comment ?</h2>
+        {{ form_row(form.comment) }}
+
+        <h2>You are almost done !</h2>
+        <p>Best trip ever ? Job trip ? Doesn't matter, we got this !</p>
+
+        <button type="submit" class="btn btn-success btn-lg">Book now !</button>
 
         {{ form_end(form) }}
     </div>

@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class BookingType extends ApplicationType
 {
@@ -17,12 +18,21 @@ class BookingType extends ApplicationType
             ->add(
                 'startDate',
                 DateType::class,
-                $this->getAttributes("Day of arrival", "Choose an arrival day")
+                $this->getAttributes("Day of arrival", "Choose an arrival day", [
+                    "widget" => "single_text"
+                ])
             )
             ->add(
                 'endDate',
                 DateType::class,
-                $this->getAttributes("Day of departure", "Choose a departure day")
+                $this->getAttributes("Day of departure", "Choose a departure day", [
+                    "widget" => "single_text"
+                ])
+            )
+            ->add(
+                'comment',
+                TextareaType::class,
+                $this->getAttributes(false, "Write a comment to your host if needed")
             )
         ;
     }
