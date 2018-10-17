@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\AccountType;
+use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
+use App\Form\PasswordUpdateType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
@@ -110,6 +113,51 @@ class AccountController extends AbstractController
         }
 
         return $this->render('account/profile.html.twig',[
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Allow password modification
+     * 
+     * @Route("/account/password-update", name="account_password")
+     *
+     * @return Response
+     */
+    public function updatePassword(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    {
+        $passwordUpdate = new PasswordUpdate();
+        $user = $this->getUser();
+
+        $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            # Verify old password = current user's password
+            if(!password_verify($passwordUpdate->getOldPassword(), $user->getHash())) {
+                # Handle error
+                $form->get('oldPassword')->addError(new FormError("Wrong password :s"));
+            } else {
+                $newPassword = $passwordUpdate->getNewPassword();
+
+                $hash = $encoder->encodePassword($user, $newPassword);
+
+                $user->setHash($hash);
+
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash(
+                    'success',
+                    "Password has been successfully changed !"
+                );
+
+                return $this->redirectToRoute("homepage");
+            }
+        }
+
+        return $this->render('account/password.html.twig',[
             'form' => $form->createView()
         ]);
     }
