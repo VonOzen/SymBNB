@@ -33,10 +33,10 @@
 <!-- Flash messages -->
 {% for label, messages in app.flashes %}
   <div class="container">
-      <ul class="alert alert-{{ label }}">
+      <div class="alert alert-{{ label }}">
           {% for message in messages %}
-              <li>{{ message | raw }}</li>
+              {{ message | raw }}
           {% endfor %}
-      </ul>
+      </div>
   </div>
 {% endfor %}
