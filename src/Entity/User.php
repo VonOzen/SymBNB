@@ -6,11 +6,17 @@ use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *  fields={"email"},
+ *  message="This email is already used :c"
+ * )
  */
 class User implements UserInterface
 {
@@ -23,21 +29,26 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="This field has to be filled")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="This field has to be filled")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="This field has to be filled")
+     * @Assert\Email(message="Enter a valid email address")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message="Enter a valid URL to your avatar")
      */
     private $avatar;
 
@@ -47,12 +58,19 @@ class User implements UserInterface
     private $hash;
 
     /**
+     * @Assert\EqualTo(propertyPath="hash", message="Passwords are different")
+     */
+    public $passwordConfirm;
+
+    /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="10", minMessage="Your introduction must contain at least 10 caracters")
      */
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min="100", minMessage="Your description must contain at least 100 caracters")
      */
     private $description;
 

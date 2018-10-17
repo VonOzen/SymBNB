@@ -45,6 +45,11 @@ class RegistrationType extends ApplicationType
                 $this->getAttributes("Password", "Choose your password")
             )
             ->add(
+                'passwordConfirm',
+                PasswordType::class,
+                $this->getAttributes("Password confirmation", "Confirm your password")
+            )
+            ->add(
                 'introduction',
                 TextType::class,
                 $this->getAttributes("Introduction", "Introduce yourself in few words :D")
