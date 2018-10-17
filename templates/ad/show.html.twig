@@ -53,10 +53,14 @@
     {% set author = ad.author %}
       <div class="row mb-3 align-items-center">
         <div class="col-3">
+        <a href="{{ path('user_show', {'slug': author.slug}) }}">
           <img src="{{ author.avatar }}" alt="{{ author.fullName }}'s avatar" class="avatar avatar-medium">
+        </a>
         </div>
         <div class="col">
-          <h3>{{ author.fullName }}</h3>
+          <a href="{{ path('user_show', {'slug': author.slug}) }}">
+            <h3>{{ author.fullName }}</h3>
+          </a>
           <span class="badge badge-secondary">{{ author.ads | length }} ads</span>
         </div>
       </div>
