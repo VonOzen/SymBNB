@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Ad;
 use App\Entity\User;
 use App\Form\AccountType;
 use App\Entity\PasswordUpdate;
@@ -12,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -90,6 +93,8 @@ class AccountController extends AbstractController
      * Display and handle profile modification form
      * 
      * @Route("/account/profile", name="account_profile")
+     * 
+     * @IsGranted("ROLE_USER")
      *
      * @return Response
      */
@@ -121,6 +126,8 @@ class AccountController extends AbstractController
      * Allow password modification
      * 
      * @Route("/account/password-update", name="account_password")
+     * 
+     * @IsGranted("ROLE_USER")
      *
      * @return Response
      */
@@ -167,12 +174,38 @@ class AccountController extends AbstractController
      *
      * @Route("/account", name="account_index")
      * 
+     * @IsGranted("ROLE_USER")
+     * 
      * @return Response
      */
     public function myAccount() {
         return $this->render('user/index.html.twig', [
             'user' => $this->getUser()
         ]);
+    }
+
+    /**
+     * Allow ad removal
+     * 
+     * @Route("/ads/{slug}/delete", name="ads_delete")
+     * 
+     * @Security("is_granted('ROLE_USER') and user == ad.getAuthor()", message="You can't access this page :x")
+     *
+     * @param Ad $ad
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function delete(Ad $ad, ObjectManager $manager)
+    {
+        $manager->remove($ad);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "Your ad \"{$ad->getTitle()}\" has been successfully deleted !"
+        );
+
+        return $this->redirectToRoute("ads_index");
     }
 
 

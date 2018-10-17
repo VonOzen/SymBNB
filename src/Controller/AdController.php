@@ -11,12 +11,16 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdController extends AbstractController
 {
     /**
+     * 
      * @Route("/ads", name="ads_index")
+     * 
      */
     public function index(AdRepository $repo)
     {
@@ -29,7 +33,11 @@ class AdController extends AbstractController
 
     /**
      * Insert a new ad into the database via a form
+     * 
      * @Route("/ads/new", name="ads_create")
+     * 
+     * @IsGranted("ROLE_USER")
+     * 
      * @return Response
      */
     public function create(Request $request, ObjectManager $manager) {
@@ -69,6 +77,8 @@ class AdController extends AbstractController
      * Editing an ad
      * 
      * @Route("/ads/{slug}/edit", name="ads_edit")
+     * 
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="You can't edit an ad you are not the author")
      *
      * @param Ad $ad
      * @param Request $request
