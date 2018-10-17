@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Oops ! Page not found :x{% endblock %}
+
+{% block body %}
+
+<div class="container">
+  <h1>Oops ! This page couldn't be found :x</h1>
+  <p>We will blame the devs for that. You can still go to the homepage !</p>
+  <a href="{{ path('homepage') }}" class="btn btn-outline-primary btn-lg">Homepage</a>
+  <a href="{{ path('ads_index') }}" class="btn btn-outline-secondary btn-lg ml-4">Our ads</a>
+</div>
+
+{% endblock %}

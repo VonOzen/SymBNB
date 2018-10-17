@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Error 403 - Access denied{% endblock %}
+
+{% block body %}
+
+<div class="container">
+  <h1>Hey there ! You can't access this page :o</h1>
+  <div class="alert alert-danger">
+    You don't have the right to get to this page, try another one :D
+  </div>
+
+  <a href="{{ path('homepage') }}" class="btn btn-outline-primary btn-lg">Homepage</a>
+  <a href="{{ path('ads_index') }}" class="btn btn-outline-secondary btn-lg ml-4">Our ads</a>
+</div>
+
+{% endblock %}
