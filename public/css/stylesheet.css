@@ -19,3 +19,14 @@
   color: hsla(0,0%,92%) !important;
   text-shadow: 1px 1px 5px hsla(0,0%,0%,.7);
 }
+
+.avatar {
+  max-width: 128px;
+  max-height: 128px;
+  border-radius: 50%;
+}
+
+.avatar-medium {
+  max-width: 64px;
+  max-height: 64px;
+}

@@ -90,6 +90,16 @@ class User implements UserInterface
     }
 
     /**
+     * User's fullname, used in TWIG
+     *
+     * @return string
+     */
+    public function getFullname()
+    {
+        return "{$this->firstName} {$this->lastName}";
+    }
+
+    /**
      * Initialize slug based on the title - Using Slugify
      * @ORM\PrePersist
      * @ORM\PreUpdate
