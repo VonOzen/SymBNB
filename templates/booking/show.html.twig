@@ -44,7 +44,7 @@
           <dt class="col-md-4">Total amount</dt>
           <dd class="col-md-8">{{ booking.amount }}&euro;</dd>
           <dt class="col-md-4">Comment (optional)</dt>
-          <dd class="col-md-8">{{ booking.comment }}</dd>
+          <dd class="col-md-8">{{ booking.comment|default("No comment") }}</dd>
         </dl>
 
         <hr>
@@ -67,13 +67,37 @@
 
         <a href="{{ path('user_show', {'slug': host.slug}) }}" class="btn btn-secondary">Learn more about {{ host.firstName }}</a>
       </div>
+
+      <div class="alert alert-light" id="comment">
+        <h2 class="alert-heading">Your opinion matters !</h2>
+        {% if date() > date(booking.endDate) %}
+          {% set comment = booking.ad.commentFromAuthor(app.user) %}
+          {% if comment is not null %}
+            <blockquote>
+              {{ comment.content }}
+            </blockquote>
+            {% include 'partials/rating.html.twig' with {'rating': comment.rating} %}
+          {% else %}         
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-success">Comment</button>
+            {{ form_end(form) }}
+          {% endif %}
+          
+
+        {% else %}
+          <div class="alert alert-danger">Come back after your trip to comment this ad :D</div>
+        {% endif %}
+        
+      </div>
+
     </div>
     <div class="col">
       <div class="alert alert-light">
         <h2 class="alert-heading">Your accomodation</h2>
 
         <h4>
-          <a href="{{ path('ads_show', {'slug': ad.slug}) }}" class="btn btn-primary">{{ ad.title }}</a>
+          <a href="{{ path('ads_show', {'slug': ad.slug}) }}" class="btn btn-secondary">{{ ad.title }}</a>
         </h4>
 
         <img src="{{ ad.coverImage }}" alt="Image for {{ ad.title }}" class="img-fluid">

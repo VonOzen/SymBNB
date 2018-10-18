@@ -3,7 +3,14 @@
     <div class="card bg-light mb-3">
         <div class="card-header text-center">
         {{ ad.rooms }} rooms, <strong>{{ ad.price }}&euro; / night</strong><br>
-        <small>No mark yet :c</small>
+        <small>
+            {% if ad.comments|length > 0 %}
+                {% include 'partials/rating.html.twig' with {'rating': ad.avgRating} %}
+            {% else %}
+                No ratings yet :x
+            {% endif %}
+            
+        </small>
         </div>
         <a href="{{ url }}">
             <img src="{{ ad.coverImage }}" alt="Room picture" style="width: 100%; display: block">
