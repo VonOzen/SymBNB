@@ -2,6 +2,10 @@
 
 {% block title %}Book ad : "{{ ad.title }}" {% endblock %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+{% endblock %}
+
 {% block body %}
     <div class="container">
         <h1>Book a room : <strong>{{ ad.title }}</strong></h1>
@@ -31,4 +35,23 @@
 
         {{ form_end(form) }}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js">
+</script>
+
+<script>
+  $(document).ready(function(){
+    $('#booking_startDate, #booking_endDate').datepicker({
+        format: 'dd/mm/yyyy',
+        startDate: new Date(),
+        datesDisabled : [
+            {% for day in ad.unavailableDays %}
+                "{{ day.format('d-m-Y') }}",
+            {% endfor %}
+        ]
+    });
+  });
+</script>
 {% endblock %}

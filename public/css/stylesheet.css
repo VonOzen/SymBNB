@@ -35,3 +35,13 @@
   max-width: 24px;
   max-height: 24px;
 }
+
+/** Datepicker **/
+
+.datepicker table tbody tr td.disabled, .datepicker table tr td.disabled:hover {
+  color: hsl(0, 68%, 42%) !important;
+  background-color: hsla(0, 38%, 80%, .5) !important;
+  -webkit-border-radius: 0 !important;
+  border-radius: 0 !important;
+  -mo-border-radius: 0 !important;
+}
