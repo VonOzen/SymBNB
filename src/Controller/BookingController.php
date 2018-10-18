@@ -31,9 +31,39 @@ class BookingController extends AbstractController
 
         $form = $this->createForm(BookingType::class, $booking);
 
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $booking->setBooker($this->getUser())
+                    ->setAd($ad);
+
+            $manager->persist($booking);
+            $manager->flush();
+
+            return $this->redirectToRoute('booking_show', [
+                'id' => $booking->getId(),
+                'withAlert' => true
+            ]);
+        }
+
         return $this->render('booking/book.html.twig', [
             'ad' => $ad,
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Display a single booking page
+     * 
+     * @Route("/booking/{id}", name="booking_show")
+     *
+     * @param Booking $booking
+     * @return Response
+     */
+    public function show(Booking $booking)
+    {
+        return $this->render('booking/show.html.twig', [
+            'booking' => $booking
         ]);
     }
 }

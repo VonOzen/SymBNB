@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Booking n°{{ booking.id }}{% endblock %}
+
+{% block body %}
+
+  {% set ad = booking.ad %}
+  {% set host = booking.ad.author %}
+
+<div class="container">
+  <h1>Your booking (n°{{ booking.id }})</h1>
+
+  {% if app.request.query.get('withAlert') %}
+    <div class="alert alert-success">
+      <h4 class="alert-heading">Congrats !</h4>
+      <p>
+        Your reservation to 
+        <strong>
+          <a href="{{ path('user_show', {'slug': host.slug}) }}">{{ host.fullName }}</a>
+        </strong>
+         for ad 
+         "<strong>
+          <a href="{{ path('ads_show', {'slug': ad.slug}) }}">{{ ad.title }}</a>
+        </strong>" 
+        is done :D
+      </p>
+    </div>
+  {% endif %}
+  
+  
+  <div class="row">
+    <div class="col">
+      <div class="alert alert-light">
+        <h2>Details</h2>
+        <dl class="row">
+          <dt class="col-md-4">Booking number</dt>
+          <dd class="col-md-8">{{ booking.id }}</dd>
+          <dt class="col-md-4">Arrival date</dt>
+          <dd class="col-md-8">{{ booking.startDate | date('d/m/Y') }}</dd>
+          <dt class="col-md-4">Departure Date</dt>
+          <dd class="col-md-8">{{ booking.endDate | date('d/m/Y') }}</dd>
+          <dt class="col-md-4">Nights</dt>
+          <dd class="col-md-8">{{ booking.duration }} night(s)</dd>
+          <dt class="col-md-4">Total amount</dt>
+          <dd class="col-md-8">{{ booking.amount }}&euro;</dd>
+          <dt class="col-md-4">Comment (optional)</dt>
+          <dd class="col-md-8">{{ booking.comment }}</dd>
+        </dl>
+
+        <hr>
+
+        <h2 class="alert-heading">Your host</h2>
+
+        <div class="row mb-3">
+          <div class="col-3">
+            <img src="{{ host.avatar }}" class="avatar avatar-medium" alt="{{ host.fullName }}'s avatar">
+          </div>
+          <div class="col-9">
+            <h4>
+              <a href="{{ path('user_show', {'slug' : host.slug}) }}">{{ host.fullName }}</a>
+            </h4>
+
+            <span class="badge badge-primary">{{ host.ads | length }} ad(s)</span>
+          </div>
+        </div>
+        {{ host.description | raw }}
+
+        <a href="{{ path('user_show', {'slug': host.slug}) }}" class="btn btn-secondary">Learn more about {{ host.firstName }}</a>
+      </div>
+    </div>
+    <div class="col">
+      <div class="alert alert-light">
+        <h2 class="alert-heading">Your accomodation</h2>
+
+        <h4>
+          <a href="{{ path('ads_show', {'slug': ad.slug}) }}" class="btn btn-primary">{{ ad.title }}</a>
+        </h4>
+
+        <img src="{{ ad.coverImage }}" alt="Image for {{ ad.title }}" class="img-fluid">
+
+        {{ ad.content | raw }}
+
+        <a href="{{ path('ads_show', {'slug': ad.slug}) }}" class="btn btn-primary">More informations</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

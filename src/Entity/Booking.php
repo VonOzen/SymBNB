@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Booking
 {
@@ -52,6 +53,34 @@ class Booking
      * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
+
+    /**
+     * Set createdAt and amount fields if empty before persist (callback)
+     * 
+     * @ORM\PrePersist
+     *
+     * @return Number
+     */
+    public function prePersist() {
+        if(empty($this->createdAt)) {
+            $this->createdAt = new \DateTime();
+        }
+
+        if(empty($this->amount)) {
+            $this->amount = $this->ad->getPrice() * $this->getDuration();
+        }
+    }
+
+    /**
+     * Get the duration of the stay based on startDate and endDate
+     *
+     * @return void
+     */
+    public function getDuration() {
+        $diff = $this->endDate->diff($this->startDate);
+
+        return $diff->days;
+    }
 
     public function getId(): ?int
     {
