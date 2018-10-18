@@ -208,5 +208,17 @@ class AccountController extends AbstractController
         return $this->redirectToRoute("ads_index");
     }
 
+    /**
+     * Display a user's bookings list
+     * 
+     * @Route("/account/bookings", name="account_bookings")
+     *
+     * @return Response
+     */
+    public function showBookings()
+    {
+        return $this->render('account/bookings.html.twig');
+    }
+
 
 }
