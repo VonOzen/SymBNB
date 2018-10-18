@@ -32,7 +32,10 @@ class BookingType extends ApplicationType
             ->add(
                 'comment',
                 TextareaType::class,
-                $this->getAttributes(false, "Write a comment to your host if needed")
+                $this->getAttributes(false, "Write a comment to your host if needed",
+                [
+                    'required' => false
+                ])
             )
         ;
     }

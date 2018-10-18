@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
@@ -31,11 +33,13 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="Arrival date must be dd/mm/yyyy")
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="Departure date must be dd/mm/yyyy")
      */
     private $endDate;
 
@@ -80,6 +84,49 @@ class Booking
         $diff = $this->endDate->diff($this->startDate);
 
         return $diff->days;
+    }
+
+
+    public function isBookable() {
+        // 1 - Check impossible dates
+        $unavailableDays = $this->ad->getUnavailableDays();
+        // 2 - Compare chosen dates and impossible dates
+        $bookingDays     = $this->getDays();
+
+        $formatDay = function($day){
+            return $day->format('Y-m-d');
+        };
+
+        // String for each date
+        $days         = array_map($formatDay, $bookingDays);
+        $notAvailable = array_map($formatDay, $unavailableDays);
+
+        foreach($days as $day) {
+            if(array_search($day, $notAvailable) !== false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Get an array of reservation days
+     *
+     * @return Array $days Datetime objects array for each reservervation day
+     */
+    public function getDays() {
+        $result = range(
+            $this->startDate->getTimestamp(),
+            $this->endDate->getTimestamp(),
+            24 * 60 * 60
+        );
+
+        $days = array_map(function($dayTimestamp){
+            return new \DateTime(date('Y-m-d', $dayTimestamp));
+        }, $result);
+
+        return $days;
     }
 
     public function getId(): ?int

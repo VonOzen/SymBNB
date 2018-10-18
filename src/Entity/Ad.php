@@ -103,6 +103,34 @@ class Ad
         }
     }
 
+    /**
+     * Get an array of unavailable days for the ad
+     *
+     * @return Array datetime array for each occupation day
+     */
+    public function getUnavailableDays() {
+        $unavailableDays = [];
+
+        foreach($this->bookings as $booking) {
+            // calculate days between arrival and departure
+            $result = range(
+                $booking->getStartDate()->getTimestamp(),
+                $booking->getEndDate()->getTimestamp(),
+                24 * 60 * 60
+            );
+
+            // Transform each $result timestamp entry into real datetime object
+            $days = array_map(function($dayTimestamp){
+                return new \DateTime(date('Y-m-d', $dayTimestamp));
+            }, $result);
+
+            $unavailableDays = array_merge($unavailableDays, $days);
+
+        }
+
+        return $unavailableDays;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
