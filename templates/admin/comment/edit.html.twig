@@ -1,0 +1,26 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Edit comment n°{{ comment.id }}{% endblock %}
+
+{% block body %}
+
+<div class="container">
+  <h1 class="my-5">Edit comment n°<strong>{{ comment.id }}</strong></h1>
+
+  <div class="alert alert-info">
+    <ul class="pt-3">
+      <li>Related Ad : <strong>{{ comment.ad.title }}</strong></li>
+      <li>Author : <strong>{{ comment.author.fullName }}</strong></li>
+      <li>Created at : <strong>{{ comment.createdAt|date('d/m/Y H:i') }}</strong></li>
+      <li>Rating : <strong>{{ comment.rating }}</strong></li>
+    </ul>
+  </div>
+
+  <div class="my-5 bg-light p-4 rounded">
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> Save changes</button>
+    {{ form_end(form) }}
+  </div>
+</div>
+
+{% endblock %}
