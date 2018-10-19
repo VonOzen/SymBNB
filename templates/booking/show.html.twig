@@ -8,7 +8,7 @@
   {% set host = booking.ad.author %}
 
 <div class="container">
-  <h1>Your booking (n°{{ booking.id }})</h1>
+  <h1 class="my-5">Your booking (n°{{ booking.id }})</h1>
 
   {% if app.request.query.get('withAlert') %}
     <div class="alert alert-success">
@@ -42,7 +42,7 @@
           <dt class="col-md-4">Nights</dt>
           <dd class="col-md-8">{{ booking.duration }} night(s)</dd>
           <dt class="col-md-4">Total amount</dt>
-          <dd class="col-md-8">{{ booking.amount }}&euro;</dd>
+          <dd class="col-md-8">{{ booking.amount|number_format(2, ',', ' ') }}&euro;</dd>
           <dt class="col-md-4">Comment (optional)</dt>
           <dd class="col-md-8">{{ booking.comment|default("No comment") }}</dd>
         </dl>
@@ -63,7 +63,7 @@
             <span class="badge badge-primary">{{ host.ads | length }} ad(s)</span>
           </div>
         </div>
-        {{ host.description | raw }}
+        {{ host.description|raw }}
 
         <a href="{{ path('user_show', {'slug': host.slug}) }}" class="btn btn-secondary">Learn more about {{ host.firstName }}</a>
       </div>
@@ -102,7 +102,7 @@
 
         <img src="{{ ad.coverImage }}" alt="Image for {{ ad.title }}" class="img-fluid">
 
-        {{ ad.content | raw }}
+        {{ ad.content|raw }}
 
         <a href="{{ path('ads_show', {'slug': ad.slug}) }}" class="btn btn-primary">More informations</a>
       </div>

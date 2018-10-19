@@ -1,12 +1,15 @@
 {% block _annonce_images_widget %}
-  <h3>Add more pics of your place !</h3>
+  <h3 class="h5">Add more pics of your place !</h3>
 
   {{ form_widget(form) }}
 
   <input type="hidden" id="widgets-counter" value="0">
 
   <div class="form-group">
-    <button type="button" id="add-image"  class="btn btn-sm btn-outline-secondary">Add image</button>
+    <button type="button" id="add-image"  class="btn btn-sm btn-outline-primary">
+      <i class="fas fa-plus mr-2"></i>
+      Add image
+    </button>
   </div>
 {% endblock %}
 
@@ -28,7 +31,7 @@
         </div>
       </div>
       <div class="col-2">
-        <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-outline-danger">X</button>
+        <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-outline-danger"><i class="fas fa-times"></i></button>
       </div>
     </div>
   </div>

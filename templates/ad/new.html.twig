@@ -7,13 +7,43 @@
 {% block body %}
 
   <div class="container">
-    <h1>Create a new ad !</h1>
+    <h1 class="my-5">Create a new ad !</h1>
 
     {{ form_start(form) }}
 
-    {{ form_widget(form) }}
+    <div class="row">
+      <div class="col">
+        <div class="alert alert-light">
+          <h2>General informations</h2>
+          <hr>
+          {{ form_row(form.title) }}
+          {{ form_row(form.price) }}
+          {{ form_row(form.rooms) }}
+        </div>
+        <div class="alert alert-light">
+          <h2>Details</h2>
+          <hr>
+          {{ form_row(form.introduction) }}
+          {{ form_row(form.content) }}
+        </div>
+      </div>
+      <div class="col">
+        <div class="alert alert-light">
+          <h2>Images</h2>
+          <hr>
+          {{ form_row(form.coverImage) }}
+          {{ form_row(form.images) }}
+        </div>
+      </div>
+    </div>
 
-    <button type="submit" class="btn btn-primary">Create new ad</button>
+    <div class="alert alert-success">
+      <p>You're about to post a new ad ! Thanks a lot :D</p>
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-check mr-2"></i>
+        Create new ad
+      </button>
+    </div>
 
     {{ form_end(form) }}
 

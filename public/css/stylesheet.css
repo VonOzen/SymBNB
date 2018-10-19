@@ -15,6 +15,14 @@
   font-weight: bolder;
 }
 
+.ad-title .btn {
+  margin-top: 2em;
+  font-size: 1.3em;
+  line-height: 1.3em;
+  letter-spacing: .1em;
+  border: 1px solid hsla(0,0%,92%,.9);
+}
+
 .carousel-caption, .carousel-caption h5 {
   color: hsla(0,0%,92%) !important;
   text-shadow: 1px 1px 5px hsla(0,0%,0%,.7);
@@ -53,4 +61,14 @@
 /** Comment **/
 blockquote {
   font-style: italic;
+}
+
+/** Booking details **/
+
+.alert a {
+  text-decoration: none;
+}
+
+.alert .btn-primary {
+  color: hsla(0,0%,100%,1);
 }

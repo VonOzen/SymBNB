@@ -8,11 +8,11 @@
 
 {% block body %}
     <div class="container bg-light">
-        <h1>Book a room : <strong>{{ ad.title }}</strong></h1>
+        <h1>Book a room : <em>{{ ad.title }}</em></h1>
         <p>You are about to book a room provided by <strong>{{ ad.author.fullName }}</strong>. Tell us what you need, we handle this !</p>
 
         {{ form_start(form) }}
-        <h2>Choose your arrival and departure dates</h2>
+        <h2 class="h4 mt-5 mb-3">Choose your arrival and departure dates</h2>
         <div class="row bg-light">
             <div class="col">
                 {{ form_row(form.startDate) }}
@@ -22,10 +22,10 @@
             </div>
         </div>
 
-        <h4>Amount of this booking : <span id="amount">...&euro;</span></h4>
-        <span id="days">0</span> night(s) for {{ ad.price }}&euro; / night.
+        <h4 class="h5 mt-2">Amount of this booking : <span id="amount">...&euro;</span></h4>
+        <span id="days">0</span> night(s) for <strong>{{ ad.price|number_format(2, ',', ' ') }}&euro;</strong> per night.
 
-        <h3 class="mt-3">Any comment ?</h3>
+        <h4 class="mt-3">Any comment ?</h4>
         {{ form_row(form.comment) }}
 
         <h4 class="mt-3">You are almost done !</h4>
