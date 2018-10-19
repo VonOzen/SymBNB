@@ -61,4 +61,26 @@ class AdminCommentController extends AbstractController
             'form'    => $form->createView()
         ]);
     }
+
+    /**
+     * Allow admin comment delete
+     * 
+     * @Route("/admin/comments/{id}/delete", name="admin_comments_delete")
+     *
+     * @param Comment $comment
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function delete(Comment $comment, ObjectManager $manager)
+    {
+        $manager->remove($comment);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "{$comment->getAuthor()->getFullName()}'s comment has been deleted !"
+        );
+
+        return $this->redirectToRoute('admin_comments_index');
+    }
 }
