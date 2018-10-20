@@ -34,7 +34,7 @@ class Booking
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Date(message="Arrival date must be dd/mm/yyyy")
-     * @Assert\GreaterThan("today", message="Arrival must be later than today")
+     * @Assert\GreaterThan("today", message="Arrival must be later than today", groups="front")
      */
     private $startDate;
 
@@ -64,6 +64,7 @@ class Booking
      * Set createdAt and amount fields if empty before persist (callback)
      * 
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      *
      * @return Number
      */
